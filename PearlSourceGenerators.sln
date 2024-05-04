@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PearlSourceGenerators", "PearlSourceGenerators\PearlSourceGenerators\PearlSourceGenerators.csproj", "{815B22C1-DB9E-47F0-8F51-1D57C4B57D72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PearlSourceGenerators.Sample", "PearlSourceGenerators\PearlSourceGenerators.Sample\PearlSourceGenerators.Sample.csproj", "{106CE044-DAE1-4F0E-AC75-C6E601E8C564}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PearlSourceGenerators.Tests", "PearlSourceGenerators\PearlSourceGenerators.Tests\PearlSourceGenerators.Tests.csproj", "{27E40324-54DA-4847-BF61-54878BDF6C39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{815B22C1-DB9E-47F0-8F51-1D57C4B57D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815B22C1-DB9E-47F0-8F51-1D57C4B57D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{815B22C1-DB9E-47F0-8F51-1D57C4B57D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{815B22C1-DB9E-47F0-8F51-1D57C4B57D72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{106CE044-DAE1-4F0E-AC75-C6E601E8C564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{106CE044-DAE1-4F0E-AC75-C6E601E8C564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{106CE044-DAE1-4F0E-AC75-C6E601E8C564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{106CE044-DAE1-4F0E-AC75-C6E601E8C564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27E40324-54DA-4847-BF61-54878BDF6C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E40324-54DA-4847-BF61-54878BDF6C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27E40324-54DA-4847-BF61-54878BDF6C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27E40324-54DA-4847-BF61-54878BDF6C39}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
