@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using PearlSourceGenerators.Utility;
 
 namespace PearlSourceGenerators;
 
@@ -55,45 +56,15 @@ public class LazyDependencyInjectionSourceGenerator : IIncrementalGenerator
     private static (ClassDeclarationSyntax, bool attributesFound) GetClassDeclarationForSourceGen(
         GeneratorSyntaxContext context)
     {
-        var hasClassAttr = false;
-        var hasFieldAttr = false;
-        
         // check if the class has the attribute we expect
         var classDeclarationSyntax = (ClassDeclarationSyntax)context.Node;
-        foreach (var attributeListSyntax in classDeclarationSyntax.AttributeLists)
-        foreach (var attributeSyntax in attributeListSyntax.Attributes)
-        {
-            if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol attributeSymbol)
-                continue; // ignore symbols we can't get
-            var attrName = attributeSymbol.ContainingType.ToDisplayString();
-            
-            if (attrName != $"{Namespace}.{ClassAttribute}") 
-                continue;
-            
-            hasClassAttr = true;
-            break;
-        }
+        var hasClassAttr = classDeclarationSyntax.HasAttribute(context, $"{Namespace}.{ClassAttribute}");
 
         // check if any fields have the attribute we expect
-        var fields = classDeclarationSyntax.Members
-            .Where(m => m is FieldDeclarationSyntax);
-        foreach (var field in fields)
-        foreach (var attributeListSyntax in field.AttributeLists)
-        foreach (var attributeSyntax in attributeListSyntax.Attributes)
-        {
-            if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol attributeSymbol)
-                continue;
-            var attrName = attributeSymbol.ContainingType.ToDisplayString();
-
-            if (attrName != $"{Namespace}.{FieldAttribute}")
-                continue;
-            
-            hasFieldAttr = true;
-            break;
-        }
+        var hasFieldAttr = classDeclarationSyntax.AnyClassMembersHave<FieldDeclarationSyntax>(context,
+                $"{Namespace}.{FieldAttribute}");
         
         return (classDeclarationSyntax, hasClassAttr && hasFieldAttr);
-
     }
 
     private void GenerateCode(SourceProductionContext context, Compilation compilation,

@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using PearlSourceGenerators.Utility;
 
 namespace PearlSourceGenerators;
 
@@ -52,42 +53,13 @@ public class AutoInjectionSourceGenerator : IIncrementalGenerator
     private static (ClassDeclarationSyntax, bool attributesFound) GetClassDeclarationForSourceGen(
         GeneratorSyntaxContext context)
     {
-        var hasClassAttr = false;
-        var hasPropAttr = false;
-        
         // check if the class has the attribute we expect
         var classDeclarationSyntax = (ClassDeclarationSyntax)context.Node;
-        foreach (var attributeListSyntax in classDeclarationSyntax.AttributeLists)
-        foreach (var attributeSyntax in attributeListSyntax.Attributes)
-        {
-            if (ModelExtensions.GetSymbolInfo(context.SemanticModel, attributeSyntax).Symbol is not IMethodSymbol attributeSymbol)
-                continue; // ignore symbols we can't get
-            var attrName = attributeSymbol.ContainingType.ToDisplayString();
-            
-            if (attrName != $"{Namespace}.{ClassAttribute}") 
-                continue;
-            
-            hasClassAttr = true;
-            break;
-        }
+        var hasClassAttr = classDeclarationSyntax.HasAttribute(context, $"{Namespace}.{ClassAttribute}");
         
-        // check if any fields have the attribute we expect
-        var fields = classDeclarationSyntax.Members
-            .Where(m => m is PropertyDeclarationSyntax);
-        foreach (var field in fields)
-        foreach (var attributeListSyntax in field.AttributeLists)
-        foreach (var attributeSyntax in attributeListSyntax.Attributes)
-        {
-            if (ModelExtensions.GetSymbolInfo(context.SemanticModel, attributeSyntax).Symbol is not IMethodSymbol attributeSymbol)
-                continue;
-            var attrName = attributeSymbol.ContainingType.ToDisplayString();
-
-            if (attrName != $"{Namespace}.{PropertyAttribute}")
-                continue;
-            
-            hasPropAttr = true;
-            break;
-        }
+        // check if any properties have the attribute we expect
+        var hasPropAttr = classDeclarationSyntax.AnyClassMembersHave<PropertyDeclarationSyntax>(context,
+            $"{Namespace}.{PropertyAttribute}");
         
         return (classDeclarationSyntax, hasClassAttr && hasPropAttr);
     }
