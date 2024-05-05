@@ -5,7 +5,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace PearlSourceGenerators.Utility;
 
-public static class GeneratorExtensions
+/// <summary>
+/// Utilities for validating that a class should be processed.
+/// </summary>
+public static class GeneratorValidationExtensions
 {
     /// <summary>
     /// Check if a given member (ie. class, field, method, etc) has at least one instance of an attribute present.
