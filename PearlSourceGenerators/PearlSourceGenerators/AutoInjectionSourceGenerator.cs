@@ -78,17 +78,7 @@ public class AutoInjectionSourceGenerator : IIncrementalGenerator
             
             var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
             var className = classSymbol.Name;
-
-            if (!classDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword)))
-            {
-                context.ReportDiagnostic(Diagnostic.Create(new DiagnosticDescriptor(
-                    "PSG001", 
-                    "Class must be partial", 
-                    "Class must be partial", 
-                    "PearlSourceGenerators",
-                    DiagnosticSeverity.Warning, true),
-                    classDecl.GetLocation()));
-            }
+            
             var properties = classSymbol.GetMembers()
                 .OfType<IPropertySymbol>()
                 .Where(p =>
